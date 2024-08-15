@@ -1,0 +1,16 @@
+[tool.poetry]
+package-mode = false
+name = "catboost-inference-exp-model"
+
+[tool.poetry.dependencies]
+python = "^3.10"
+dvc = {extras = ["s3"], version = "^3.53.2"}
+
+[tool.poetry.group.dev]
+optional = true
+
+[tool.poetry.group.dev.dependencies]
+ipykernel = "^6.29.5"
+mypy = "^1.11.0"
+pre-commit = "^3.7.1"
+ruff = "^0.5.4"

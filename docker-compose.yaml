@@ -1,0 +1,20 @@
+name: ${PROJECT_ID}
+version: '3.8'
+
+services:
+  model-dev:
+    build: 
+      context: .
+      args:
+        - USERNAME=${DEVELOPER_USERNAME}
+        - USER_UID=${DEVELOPER_USER_UID}
+        - USER_GID=${DEVELOPER_USER_GID}
+    environment:
+      - PYTHONPATH=/workspaces/${PROJECT_ID}/src
+      - POETRY_VIRTUALENVS_IN_PROJECT=${POETRY_VIRTUALENVS_IN_PROJECT}
+      - AWS_ACCESS_KEY_ID=${DVC_REMOTE_AWS_ACCESS_KEY_ID}
+      - AWS_SECRET_ACCESS_KEY=${DVC_REMOTE_AWS_SECRET_ACCESS_KEY}
+    command: sleep infinity
+    volumes:
+      - ${HOME:-~}/.ssh:/home/${DEVELOPER_USERNAME}/.ssh:ro
+      - ${PROJECT_DIR_PATH}:/workspaces/${PROJECT_ID}:cached

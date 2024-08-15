@@ -1,0 +1,31 @@
+// For format details, see https://aka.ms/devcontainer.json. For config options, see the
+// README at: https://github.com/devcontainers/templates/tree/main/src/docker-existing-docker-compose
+{
+	"name": "catboost_inference_exp_model",
+	"dockerComposeFile": [
+		"../docker-compose.yaml",
+	],
+	"service": "model-dev",
+	"workspaceFolder": "/workspaces/catboost_inference_exp_model",
+	"features": {
+		"ghcr.io/devcontainers/features/conda:1": {}
+	},
+	"customizations": {
+		"vscode": {
+			"extensions": [
+				"ms-azuretools.vscode-docker",
+				"IronGeek.vscode-env",
+				"donjayamanne.git-extension-pack",
+				"tamasfe.even-better-toml",
+				"charliermarsh.ruff",
+				"ms-python.python",
+				"ms-python.mypy-type-checker",
+				"redhat.vscode-yaml",
+				"njpwerner.autodocstring",
+				"ms-toolsai.jupyter",
+				"iterative.dvc"
+			]
+		}
+	},
+	"updateContentCommand": "make prepare-dev"
+}
