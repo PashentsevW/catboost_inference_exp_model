@@ -1,15 +1,32 @@
-RANDOM_STATE = 94
+from pathlib import Path
 
-DATASET_PARAMS = {"n_samples": 100_000, "n_features": 40, "n_classes": 2, "random_state": RANDOM_STATE}
+from pydantic import BaseModel
+from pydantic_settings import BaseSettings, YamlConfigSettingsSource
 
-TEST_SIZE = 0.3
 
-CATBOOST_MODEL_PARAMS = {
-    "loss_function": "Logloss",
-    "iterations": 1000,
-    "learning_rate": 0.01,
-    "random_state": RANDOM_STATE,
-    "verbose": 100,
-}
+class DatasetParams(BaseModel):
+    n_samples: int
+    n_features: int
+    n_classes: int
+    random_state: int
 
-EVAL_METRICS = ["Precision", "Recall"]
+
+class CatboostModelParams(BaseModel):
+    loss_function: str
+    iterations: int
+    learning_rate: float
+    random_state: int
+    verbose: int
+
+
+class PipelineParams(BaseSettings):
+    random_state: int
+    dataset_params: DatasetParams
+    test_size: float
+    catboost_model_params: CatboostModelParams
+    eval_metrics: list[str]
+
+    @classmethod
+    def load_from_yaml(cls, yaml_file: Path | str) -> "PipelineParams":
+        source = YamlConfigSettingsSource(cls, yaml_file=yaml_file)
+        return PipelineParams(**source())

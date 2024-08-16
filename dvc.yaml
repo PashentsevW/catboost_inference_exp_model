@@ -1,0 +1,11 @@
+stages:
+  train_eval_model:
+    cmd: python train_eval_model.py
+    wdir: src
+    params:
+      - ../resources/configs/params.yaml
+    outs:
+      - ../data/features.npz
+      - ../models/model.bin
+    metrics:
+      - ../reports/metrics.json

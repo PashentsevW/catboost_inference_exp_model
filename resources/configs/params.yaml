@@ -1,0 +1,20 @@
+random_state: &x-random-state 94
+
+dataset_params:
+  n_samples: 100000
+  n_features: 40
+  n_classes: 2
+  random_state: *x-random-state
+
+test_size: 0.3
+
+catboost_model_params:
+  loss_function: Logloss
+  iterations: 1000
+  learning_rate: 0.01
+  random_state: *x-random-state
+  verbose: 100
+
+eval_metrics:
+  - Precision
+  - Recall

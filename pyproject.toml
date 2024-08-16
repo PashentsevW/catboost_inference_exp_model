@@ -8,6 +8,8 @@ dvc = {extras = ["s3"], version = "^3.53.2"}
 scikit-learn = "^1.5.1"
 catboost = "^1.2.5"
 numpy = "<2.0.0"
+pydantic-settings = "^2.4.0"
+pyyaml = "^6.0.2"
 
 [tool.poetry.group.dev]
 optional = true

@@ -9,11 +9,18 @@ from sklearn.datasets import make_classification
 from sklearn.model_selection import train_test_split
 
 import constants
-import params
+from params import PipelineParams
 
 if __name__ == "__main__":
     argparser = argparse.ArgumentParser()
 
+    argparser.add_argument(
+        "--pipeline-config-path",
+        help="Path to model`s binary",
+        required=False,
+        default=str(constants.CONFIG_PATH / "params.yaml"),
+        type=str,
+    )
     argparser.add_argument(
         "--output-model-path",
         help="Path to model`s binary",
@@ -51,8 +58,13 @@ if __name__ == "__main__":
 
     logging.info("Run with args: %s", args)
 
+    # Читаем параметры пайплайна
+    params = PipelineParams.load_from_yaml(args.pipeline_config_path)
+
+    logging.info("Run with params: %s", params)
+
     # Генерируем данные
-    X, y = make_classification(**params.DATASET_PARAMS)
+    X, y = make_classification(**dict(params.dataset_params))
 
     logging.info("Got X, y with shapes: %s, %s", X.shape, y.shape)
 
@@ -60,9 +72,9 @@ if __name__ == "__main__":
     X_train, X_test, y_train, y_test = train_test_split(
         X,
         y,
-        test_size=params.TEST_SIZE,
+        test_size=params.test_size,
         stratify=y,
-        random_state=params.RANDOM_STATE,
+        random_state=params.random_state,
     )
 
     logging.info("Got train, test with sizes: %s, %s", X_train.shape[0], X_test.shape[0])
@@ -71,7 +83,7 @@ if __name__ == "__main__":
     logging.info("Start training model")
 
     train_ds = catboost.Pool(X_train, label=y_train)
-    model = catboost.CatBoostClassifier(**params.CATBOOST_MODEL_PARAMS)
+    model = catboost.CatBoostClassifier(**dict(params.catboost_model_params))
     model.fit(train_ds)
 
     # Замеряем качество модели
@@ -80,7 +92,7 @@ if __name__ == "__main__":
     y_pred = model.predict(X_test)
 
     metrics = {}
-    for metric in params.EVAL_METRICS:
+    for metric in params.eval_metrics:
         metrics[metric] = eval_metric(y_test, y_pred, metric)
 
         logging.info("%s - %s", metric, metrics[metric])
