@@ -27,9 +27,9 @@ stages:
       size: 32000264
     - path: ../models/model.bin
       hash: md5
-      md5: 8f8d8d1d7d93a353c7a5cd5bea4d4325
+      md5: e5e0d45413cf65976d2a607c138caa1a
       size: 1130776
     - path: ../reports/metrics.json
       hash: md5
-      md5: de7fd1ddf29781b76cead932f62e45b3
-      size: 66
+      md5: a5da88bb55c68f339f45ae8ec0da266a
+      size: 62
