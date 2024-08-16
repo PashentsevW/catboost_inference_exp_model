@@ -1,0 +1,35 @@
+schema: '2.0'
+stages:
+  train_eval_model:
+    cmd: python train_eval_model.py
+    params:
+      ../resources/configs/params.yaml:
+        catboost_model_params:
+          loss_function: Logloss
+          iterations: 1000
+          learning_rate: 0.01
+          random_state: 94
+          verbose: 100
+        dataset_params:
+          n_samples: 100000
+          n_features: 40
+          n_classes: 2
+          random_state: 94
+        eval_metrics:
+        - Precision
+        - Recall
+        random_state: 94
+        test_size: 0.3
+    outs:
+    - path: ../data/features.npz
+      hash: md5
+      md5: 2c67cf4f951b7e24dc5c97506c56c859
+      size: 32000264
+    - path: ../models/model.bin
+      hash: md5
+      md5: 8f8d8d1d7d93a353c7a5cd5bea4d4325
+      size: 1130776
+    - path: ../reports/metrics.json
+      hash: md5
+      md5: de7fd1ddf29781b76cead932f62e45b3
+      size: 66
