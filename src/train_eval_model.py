@@ -93,7 +93,7 @@ if __name__ == "__main__":
 
     metrics = {}
     for metric in params.eval_metrics:
-        metrics[metric] = eval_metric(y_test, y_pred, metric)
+        metrics[metric] = eval_metric(y_test, y_pred, metric)[0]
 
         logging.info("%s - %s", metric, metrics[metric])
 
